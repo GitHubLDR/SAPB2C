@@ -425,22 +425,5 @@ public class SearchPageController extends AbstractSearchPageController
 
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
-	public Map <String,List<String>> siteImageSearchALL(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
-
-		Map <String,List<String>> stringListMap = new HashMap <>();
-		try{
-			InputStream imageStream= file.getInputStream();
-			List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
-			stringListMap.put("gcpSearchTerms",imageLabelData);
-			stringListMap.put("awsSearchTerms",Collections.emptyList());
-		}
-		catch (Exception e)
-		{
-			LOG.error("Error while Fetching the Data...");
-		}
-		return stringListMap;
-	}
 
 }
