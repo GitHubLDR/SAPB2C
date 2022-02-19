@@ -8,6 +8,7 @@ import com.sap.b2c.facades.product.data.ImageSearchData;
 import de.hybris.platform.acceleratorcms.model.components.SearchBoxComponentModel;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorservices.customer.CustomerLocationService;
+import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.Breadcrumb;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.SearchBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyConstants;
@@ -31,6 +32,7 @@ import de.hybris.platform.servicelayer.dto.converter.ConversionException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -301,7 +303,7 @@ public class SearchPageController extends AbstractSearchPageController
 						+ " " + searchText));
 	}
 
-	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
+	@RequestMapping(value = "/siteImageSearchGCP",method = RequestMethod.POST)
 	public String siteImageSearch(@RequestBody final ImageSearchData imageSearchData, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
 
 
@@ -425,4 +427,24 @@ public class SearchPageController extends AbstractSearchPageController
 		}
 
 	}
-}
+
+	@ResponseBody
+	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
+	public String siteImageSearchALL(@RequestBody final ImageSearchData imageSearchData, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
+
+		InputStream imageStream= imageSearchData.getFile().getInputStream();
+		List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
+		model.addAttribute("gcpSearchTerms",imageLabelData);
+		model.addAttribute("azureSearchTerms",Collections.emptyList());
+		model.addAttribute("awsSearchTerms",Collections.emptyList());
+
+		final ContentPageModel cmPage = getContentPageForLabelOrId("ImageSearch");
+		storeCmsPageInModel(model, cmPage);
+		setUpMetaDataForContentPage(model, cmPage);
+		final List<Breadcrumb> breadcrumbs = new ArrayList <>();
+		model.addAttribute(WebConstants.BREADCRUMBS_KEY, breadcrumbs);
+		model.addAttribute(ThirdPartyConstants.SeoRobots.META_ROBOTS, ThirdPartyConstants.SeoRobots.NOINDEX_NOFOLLOW);
+		return getViewForPage(model);
+	}
+
+	}
