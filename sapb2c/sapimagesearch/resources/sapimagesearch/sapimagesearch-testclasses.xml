@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testclasses><sapimagesearch><testclass>com.sap.image.search.jalo.SapimagesearchTest</testclass><testclass>com.sap.image.search.service.impl.DefaultSapimagesearchServiceIntegrationTest</testclass></sapimagesearch></testclasses>

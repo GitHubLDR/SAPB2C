@@ -1,0 +1,71 @@
+$contentCatalog=apparel-ukContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false'];
+                         ;;ImageSearch;Image Search Results Page;SearchResultsGridPageTemplate;search
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;&componentRef;
+                                 ;;ImageSearchPageComponent;Image Search Page Component;/WEB-INF/views/responsive/cms/imageSearchPageComponent.jsp;ImageSearchPageComponent
+
+#### SearchResultGridPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+                         ;;ImageSearch_ImageSearchResultsSlot;Image Search Result Grid Slot for Search;true;ImageSearchPageComponent;;;
+
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true];
+                                ;;ImageSearchResults_ContentSlot;ImageSearchResultsGridSlot;ImageSearch;ImageSearch_ImageSearchResultsSlot;
+
+
+$productCatalog=apparelProductCatalog
+$catalogVersions=catalogVersions(catalog(id),version);
+$facetSearchConfigName=apparel-ukIndex
+$facetSearchConfigDescription=Apparel UK Solr Index
+$searchIndexNamePrefix=apparel-uk
+$solrIndexedType=apparel-ukProductType
+$indexBaseSite=apparel-uk
+$indexLanguages=en
+$indexCurrencies=GBP
+
+# Search query template
+INSERT_UPDATE SolrSearchQueryTemplate ; name[unique=true] ; indexedType(identifier)[unique=true] ; ftsQueryBuilder             ; group ; groupProperty(name, solrIndexedType(identifier))[unique=true] ; enableHighlighting[default=true]
+                                      ; IMAGE_SEARCH           ; $solrIndexedType                     ; defaultFreeTextQueryBuilder ; true  ; baseProductCode:$solrIndexedType                              ;
+
+# Non-facet search query properties
+INSERT_UPDATE SolrSearchQueryProperty ; indexedProperty(name, solrIndexedType(identifier))[unique=true] ; searchQueryTemplate(name, indexedType(identifier))[unique=true][default=IMAGE_SEARCH:$solrIndexedType] ; facet ; ftsPhraseQuery[default=false] ; ftsPhraseQueryBoost ; ftsQuery[default=false] ; ftsQueryBoost ; ftsFuzzyQuery[default=false] ; ftsFuzzyQueryBoost ; ftsWildcardQuery[default=false] ; ftsWildcardQueryType(code)[default=POSTFIX] ; ftsWildcardQueryBoost ; ftsWildcardQueryMinTermLength ; includeInResponse[default=true] ; useForHighlighting[default=false]
+                                      ; itemtype:$solrIndexedType                                       ;                                                                                                   ;       ;                               ;                     ;                         ;               ;                              ;                    ;                                 ;                                             ;                       ;                               ;                                 ;                                  
+                                      ; code:$solrIndexedType                                           ;                                                                                                   ;       ; TRUE                          ; 90                  ;                         ;               ; TRUE                         ;                    ;                                 ; POSTFIX                                     ; 45                    ; 3                             ;                                 ;                                  
+                                      ; name:$solrIndexedType                                           ;                                                                                                   ;       ; TRUE                          ; 100                 ; TRUE                    ; 50            ; TRUE                         ; 25                 ;                                 ;                                             ;                       ;                               ;                                 ; true                               
+                                      ; description:$solrIndexedType                                    ;                                                                                                   ;       ;                               ;                     ;                         ;               ;                              ;                    ;                                 ;                                             ;                       ;                               ;                                 ;                                    
+                                      ; summary:$solrIndexedType                                        ;                                                                                                   ;       ;                               ;                     ;                         ;               ;                              ;                    ;                                 ;                                             ;                       ;                               ;                                 ; true                               
+                                      ; manufacturerName:$solrIndexedType                               ;                                                                                                   ;       ; TRUE                          ; 80                  ; TRUE                    ; 40            ; TRUE                         ; 20                 ;                                 ;                                             ;                       ;                               ;                                 ;                                    
+                                      ; keywords:$solrIndexedType                                       ;                                                                                                   ;       ; TRUE                          ; 40                  ; TRUE                    ; 20            ; TRUE                         ; 10                 ;                                 ;                                             ;                       ;                               ;                                 ;                                    
+
+
+# Category search query fields
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=IMAGE_SEARCH:$solrIndexedType];facet;ftsPhraseQuery[default=false];ftsPhraseQueryBoost;ftsQuery[default=false];ftsQueryBoost;ftsFuzzyQuery[default=false];ftsFuzzyQueryBoost;includeInResponse[default=true]
+;allCategories:$solrIndexedType 	 ;    ;   ;    ;  ;    ;  ;    ;  ;
+;categoryName:$solrIndexedType       ;    ;   ;true;40;true;20;true;10;
+;brandName:$solrIndexedType 		 ;    ;   ;    ;  ;    ;  ;    ;  ;
+;collectionName:$solrIndexedType 	 ;    ;   ;    ;  ;    ;  ;    ;  ;
+;allPromotions:$solrIndexedType 	 ;    ;   ;    ;  ;    ;  ;    ;  ;
+
+# Category search query facets
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=IMAGE_SEARCH:$solrIndexedType];facet[default=true];facetType(code);includeInResponse[default=true];facetDisplayNameProvider;facetSortProvider;facetTopValuesProvider
+;categoryPath:$solrIndexedType 	;;;Refine;;;;;
+;category:$solrIndexedType 		;;;Refine;;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+;collection:$solrIndexedType		;;;Refine;;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+;brand:$solrIndexedType 			;;;Refine;;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+;gender:$solrIndexedType 			;;;Refine;;genderFacetDisplayNameProvider;;
+
+# Other search query facets
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];facet[default=true];facetType(code);priority;facetDisplayNameProvider;facetSortProvider;facetTopValuesProvider;includeInResponse[default=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=IMAGE_SEARCH:$solrIndexedType]
+									 ;price:$solrIndexedType										 ;					 ;MultiSelectOr	 ;4000	  ;						   						;				 			  ;defaultTopValuesProvider	;;
+									 ;style:$solrIndexedType										 ;					 ;MultiSelectOr	 ;-1	  ;						   						;				 			  ;							;;
+									 ;swatchColors:$solrIndexedType									 ;					 ;MultiSelectOr	 ;2500	  ;colorFacetDisplayNameProvider				;			 				  ;						  	;;
+									 ;size:$solrIndexedType											 ;					 ;MultiSelectOr	 ;2000	  ;						   						;sizeAttributeSortProvider	  ;				  			;;
+									 ;availableInStores:$solrIndexedType							 ;					 ;MultiSelectOr	 ;10000	  ;apparelPointOfServiceFacetDisplayNameProvider;distanceAttributeSortProvider;							;;
+
+
+
+
+
