@@ -67,14 +67,14 @@ function expandCollapse(divToToggle) {
 
 // Called when the user clicks the Query insights button.
 function handleQuery() {
-    var subscriptionKey = document.getElementById('key').value;
+    var subscriptionKey = '1cddc5fd99b44fe2a3038b0ec6d1cdd1';
 
     // Make sure user provided a subscription key and image.
     // For this demo, the user provides the key but typically you'd 
     // get it from secured storage.
     if (subscriptionKey.length !== 32) {
         alert("Subscription key length is not valid. Enter a valid key.");
-        document.getElementById('key').focus();
+        // document.getElementById('key').focus();
         return;
     }
 
@@ -95,12 +95,14 @@ function handleQuery() {
 
     // Send the request to Bing to get insights about the image.
     var f = document.getElementById('uploadImage').files[0];
-    sendRequest(f, subscriptionKey);
+
+    sendBingRequest(f, subscriptionKey);
+    sendRequestToGCPAWS(f);
 }
 
 
 // Format the request and send it.
-function sendRequest(file, key) {
+function sendBingRequest(file, key) {
     var market = document.getElementById('mkt').value;
     var safeSearch = document.getElementById('safesearch').value;
     var baseUri = `https://api.bing.microsoft.com/v7.0/images/visualsearch?mkt=${market}&safesearch=${safeSearch}`;
@@ -110,6 +112,7 @@ function sendRequest(file, key) {
 
     var request = new XMLHttpRequest();
 
+    
     request.open("POST", baseUri);
     request.setRequestHeader('Ocp-Apim-Subscription-Key', key);
     request.addEventListener('load', handleResponse);
@@ -130,7 +133,25 @@ function handleResponse() {
     var h4 = document.createElement('h4');
     h4.textContent = 'Bing internet search results';
     document.getElementById('responseSection').appendChild(h4);
-    buildTagSections(tags);
+    
+    var bingSearchResultsElement = document.createElement('div');
+    bingSearchResultsElement.id = 'bingSearchResults';
+    bingSearchResultsElement.setAttribute('class', 'display-flex flex-column col-md-12 col-xs-12 no-padding align-content-start');
+    document.getElementById('responseSection').appendChild(bingSearchResultsElement);
+    
+    
+    for(var tag in tags) {
+
+        if (tags.hasOwnProperty(tag)) {
+            var linkElement = document.createElement('a');
+            linkElement.setAttribute('onclick', `searchTermRedirection("${tag}")`);
+            linkElement.text = tag;
+            linkElement.setAttribute('class', 'cursor-pointer');
+            document.getElementById('bingSearchResults').appendChild(linkElement);
+        }
+    }
+    
+    // buildTagSections(tags); // Commented the code for using custom builder
 
     document.body.style.cursor = 'default'; // reset the wait curor set by query insights button
 }
@@ -473,12 +494,14 @@ function addImageWithWebSearchUrl(div, image, action) {
     div.appendChild(img);
 }
 
+function searchTermRedirection(searchTag) {
+    var baseUri = '/sapb2cstorefront/en/search/?text=' + searchTag;
+    window.open(baseUri);
+}
 
-// NAVIGATION BAR FILE UPLOAD METHOD
-function navBarFileUpload(selector) {
-    var files = document.getElementById(selector).files; // FileList object
+function sendRequestToGCPAWS(file) {
     const formData = new FormData();
-    formData.append('file', files[0]);
+    formData.append('file', file);
     var baseUri = '/sapb2cstorefront/search/siteImageSearch';
 
     console.log(formData)
@@ -505,4 +528,4 @@ function navBarFileUpload(selector) {
             console.log(error)
         }
     });
-}
+};

@@ -84,6 +84,8 @@
 		<script src="${commonResourcePathHtml}/js/acc.csv-import.js"></script>
 
 		<script src="${commonResourcePathHtml}/js/_autoload.js"></script>
+
+		<script src="${commonResourcePathHtml}/js/main-script.js"></script>
 		
 		<%-- Cms Action JavaScript files --%>
 		<c:forEach items="${cmsActionsJsFiles}" var="actionJsFile">

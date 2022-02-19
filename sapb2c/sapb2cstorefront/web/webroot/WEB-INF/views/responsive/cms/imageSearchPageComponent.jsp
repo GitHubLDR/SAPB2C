@@ -2,21 +2,27 @@
 
     <div id="requestSection">
         <div>
-            <p>Select image to get insights from Bing:
+            <p class="display-flex flex-column">
+                <div class="col-md-12 no-padding">Upload an image Image below to get insights:</div>
+                <!-- TEST -->
+                <button style="display:block;width:120px; height:30px; margin-top: 40px; color: #000;"
+                    onclick="document.getElementById('uploadImage').click()">Upload</button>
+                <!-- <input type='file' id="uploadImage" style="display:none"> -->
+
                 <input type="file" accept="image/*" id="uploadImage" name="files[]" size=40
-                    onchange="handleFileSelect('uploadImage')" />
+                    onchange="handleFileSelect('uploadImage')" style="display: none;" />
             </p>
 
             <output id="thumbnail"></output>
         </div>
 
-        <div>
+        <!-- <div>
             <p>Subscription key:
                 <input type="text" id="key" name="subscription" size=40 maxlength="32" />
             </p>
-        </div>
+        </div> -->
 
-        <div>
+        <div style="display: none;">
             <p><a href="#" onclick="expandCollapse(options.id)">Query options</a></p>
 
             <div id="options" style="display:none">
