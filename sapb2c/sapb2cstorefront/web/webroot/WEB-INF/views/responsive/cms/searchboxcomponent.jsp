@@ -42,7 +42,5 @@
 
 		</div>
 	</form>
-	<input type="file" accept="image/*" id="navbar-img-upload" size=40
-			onchange="navBarFileUpload('navbar-img-upload')" />
 
 </div>
