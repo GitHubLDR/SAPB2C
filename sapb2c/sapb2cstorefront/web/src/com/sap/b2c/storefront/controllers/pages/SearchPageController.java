@@ -3,12 +3,11 @@
  */
 package com.sap.b2c.storefront.controllers.pages;
 
-import com.sap.image.search.gcp.GCPVisionAPISearch;
 import com.sap.b2c.facades.product.data.ImageSearchData;
+import com.sap.image.search.gcp.GCPVisionAPISearch;
 import de.hybris.platform.acceleratorcms.model.components.SearchBoxComponentModel;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorservices.customer.CustomerLocationService;
-import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.Breadcrumb;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.SearchBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyConstants;
@@ -29,18 +28,6 @@ import de.hybris.platform.commerceservices.search.facetdata.ProductSearchPageDat
 import de.hybris.platform.commerceservices.search.pagedata.PageableData;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.dto.converter.ConversionException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -50,6 +37,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Controller
@@ -94,14 +92,13 @@ public class SearchPageController extends AbstractSearchPageController
 		final ContentPageModel noResultPage = getContentPageForLabelOrId(NO_RESULTS_CMS_PAGE_ID);
 		if (StringUtils.isNotBlank(searchText))
 		{
-			List <String> imageLabelData = gcpVisionAPISearch.getImageLabelDataPath(configurationService.getConfiguration().getString("sap.image.search.path","/home/ccv2/CAT/1.jpeg"));
 
 			final PageableData pageableData = createPageableData(0, getSearchPageSize(), null, ShowMode.Page);
 
 			final SearchStateData searchState = new SearchStateData();
 			final SearchQueryData searchQueryData = new SearchQueryData();
 
-			searchQueryData.setValue(imageLabelData.get(0));
+			searchQueryData.setValue(searchText);
 			searchState.setQuery(searchQueryData);
 			searchQueryData.setSearchQueryContext(SearchQueryContext.IMAGE_SEARCH);
 
@@ -430,21 +427,20 @@ public class SearchPageController extends AbstractSearchPageController
 
 	@ResponseBody
 	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
-	public String siteImageSearchALL(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
+	public Map <String,List<String>> siteImageSearchALL(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
 
-		InputStream imageStream= file.getInputStream();
-		List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
-		model.addAttribute("gcpSearchTerms",imageLabelData);
-		model.addAttribute("azureSearchTerms",Collections.emptyList());
-		model.addAttribute("awsSearchTerms",Collections.emptyList());
-
-		final ContentPageModel cmPage = getContentPageForLabelOrId("ImageSearch");
-		storeCmsPageInModel(model, cmPage);
-		setUpMetaDataForContentPage(model, cmPage);
-		final List<Breadcrumb> breadcrumbs = new ArrayList <>();
-		model.addAttribute(WebConstants.BREADCRUMBS_KEY, breadcrumbs);
-		model.addAttribute(ThirdPartyConstants.SeoRobots.META_ROBOTS, ThirdPartyConstants.SeoRobots.NOINDEX_NOFOLLOW);
-		return getViewForPage(model);
+		Map <String,List<String>> stringListMap = new HashMap <>();
+		try{
+			InputStream imageStream= file.getInputStream();
+			List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
+			stringListMap.put("gcpSearchTerms",imageLabelData);
+			stringListMap.put("awsSearchTerms",Collections.emptyList());
+		}
+		catch (Exception e)
+		{
+			LOG.error("Error while Fetching the Data...");
+		}
+		return stringListMap;
 	}
 
-	}
+}
