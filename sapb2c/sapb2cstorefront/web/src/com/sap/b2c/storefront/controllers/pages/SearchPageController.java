@@ -430,9 +430,9 @@ public class SearchPageController extends AbstractSearchPageController
 
 	@ResponseBody
 	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
-	public String siteImageSearchALL(@RequestBody final ImageSearchData imageSearchData, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
+	public String siteImageSearchALL(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
 
-		InputStream imageStream= imageSearchData.getFile().getInputStream();
+		InputStream imageStream= file.getInputStream();
 		List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
 		model.addAttribute("gcpSearchTerms",imageLabelData);
 		model.addAttribute("azureSearchTerms",Collections.emptyList());
