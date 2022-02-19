@@ -41,6 +41,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -299,7 +301,7 @@ public class SearchPageController extends AbstractSearchPageController
 	}
 
 	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
-	public String siteImageSearch(@RequestParam final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
+	public String siteImageSearch(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
 
 
 		InputStream imageStream= file.getInputStream();
@@ -394,6 +396,31 @@ public class SearchPageController extends AbstractSearchPageController
 			}
 
 		return getViewForPage(model);
+	}
+
+	@ResponseBody
+	@RequestMapping(value ="/textSearch", method = RequestMethod.GET)
+	public ResponseEntity textSearchByTerm(@RequestParam String searchText)
+	{
+
+		try {
+			final PageableData pageableData = createPageableData(0,getSearchPageSize(),null,ShowMode.Page);
+
+			final SearchStateData searchState = new SearchStateData();
+			final SearchQueryData searchQueryData = new SearchQueryData();
+
+			searchQueryData.setValue(searchText);
+			searchState.setQuery(searchQueryData);
+			searchQueryData.setSearchQueryContext(SearchQueryContext.IMAGE_SEARCH);
+
+			ProductSearchPageData <SearchStateData, ProductData> searchStateDataProductDataProductSearchPageData = encodeSearchPageData(productSearchFacade.textSearch(searchState,pageableData));
+
+			return new ResponseEntity(searchStateDataProductDataProductSearchPageData,HttpStatus.OK);
+		}catch(Exception e)
+		{
+			LOG.error(e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 }
