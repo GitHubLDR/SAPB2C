@@ -12,4 +12,12 @@
 		<property name="code" type="String"/>
 		<property name="name" type="String"/>
 	</bean>
+
+	<bean class="com.sap.b2c.facades.product.data.ImageSearchData">
+		<property name="file" type="org.springframework.web.multipart.MultipartFile"/>
+		<property name="gcp" type="boolean"/>
+		<property name="aws" type="boolean"/>
+		<property name="azure" type="boolean"/>
+	</bean>
+
 </beans>

@@ -4,6 +4,7 @@
 package com.sap.b2c.storefront.controllers.pages;
 
 import com.sap.image.search.gcp.GCPVisionAPISearch;
+import com.sap.b2c.facades.product.data.ImageSearchData;
 import de.hybris.platform.acceleratorcms.model.components.SearchBoxComponentModel;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorservices.customer.CustomerLocationService;
@@ -301,10 +302,10 @@ public class SearchPageController extends AbstractSearchPageController
 	}
 
 	@RequestMapping(value = "/siteImageSearch",method = RequestMethod.POST)
-	public String siteImageSearch(@RequestBody final MultipartFile file, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
+	public String siteImageSearch(@RequestBody final ImageSearchData imageSearchData, HttpServletRequest request,final Model model) throws CMSItemNotFoundException, IOException {
 
 
-		InputStream imageStream= file.getInputStream();
+		InputStream imageStream= imageSearchData.getFile().getInputStream();
 
 		final ContentPageModel noResultPage = getContentPageForLabelOrId(NO_RESULTS_CMS_PAGE_ID);
 
