@@ -311,6 +311,7 @@ public class SearchPageController extends AbstractSearchPageController
 
 
 		List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
+		model.addAttribute("searchTerms",imageLabelData);
 
 		AtomicReference <String> searchText= new AtomicReference <>("");
 		AtomicReference <ProductSearchPageData <SearchStateData, ProductData>> searchPageData = new AtomicReference <>();
