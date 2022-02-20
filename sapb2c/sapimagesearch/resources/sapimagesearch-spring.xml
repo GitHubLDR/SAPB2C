@@ -85,4 +85,7 @@
 
     <bean id="gcpVisionAPISearch" class="com.sap.image.search.gcp.impl.GCPVisionAPISearchImpl" />
 
+
+    <bean id="awsRekognition" class="com.sap.image.search.aws.impl.AWSRekognitionImpl"/>
+
 </beans>
