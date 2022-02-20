@@ -3,49 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="eclipsebin/notused"/>
 	<classpathentry exported="true" kind="src" path="/acceleratorcms" />
-	<classpathentry exported="true" kind="lib" path="lib/api-common-2.1.3.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/auto-value-1.9.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/gax-2.11.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/gax-grpc-2.11.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/gax-httpjson-0.96.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-api-client-1.33.1.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-api-services-storage-v1-rev20211201-1.32.1.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-auth-library-appengine-1.3.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-auth-library-credentials-1.3.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-auth-library-oauth2-http-1.4.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-cloud-core-2.4.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-cloud-core-http-2.4.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-cloud-storage-2.4.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-cloud-vision-2.0.19.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-http-client-1.41.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-http-client-apache-v2-1.41.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-http-client-appengine-1.41.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-http-client-gson-1.41.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/google-http-client-jackson2-1.41.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-alts-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-api-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-auth-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-context-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-core-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-grpclb-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-netty-shaded-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-protobuf-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-protobuf-lite-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-services-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-stub-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/grpc-xds-1.44.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/gson-2.8.9.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/guava-31.0.1-jre.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/opencensus-api-0.31.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/opencensus-contrib-http-util-0.31.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/opencensus-proto-0.2.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/perfmark-api-0.23.0.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/proto-google-cloud-vision-v1-2.0.19.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/proto-google-common-protos-2.7.2.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/proto-google-iam-v1-1.2.1.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/protobuf-java-3.19.3.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/protobuf-java-util-3.19.3.jar" />
-	<classpathentry exported="true" kind="lib" path="lib/threetenbp-1.5.2.jar" />
 	<classpathentry exported="true" kind="lib" path="resources" />
 	<classpathentry exported="true" output="eclipsebin/classes" kind="src" path="src" />
 	<classpathentry exported="true" output="eclipsebin/classes" kind="src" path="testsrc" />
