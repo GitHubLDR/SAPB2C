@@ -13,7 +13,7 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 
 
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true];
-                                ;;ImageSearchResults_ContentSlot;SearchResultsGridSlot;ImageSearch;ImageSearch_ImageSearchResultsSlot;
+                                ;;ImageSearchResults_ContentSlot;ImageSearchResultsGridSlot;ImageSearch;ImageSearch_ImageSearchResultsSlot;
 
 
 $productCatalog=apparelProductCatalog

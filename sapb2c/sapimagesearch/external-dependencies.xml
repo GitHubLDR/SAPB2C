@@ -9,6 +9,9 @@
 	<version>2105.8</version>
 
 	<packaging>jar</packaging>
+	<properties>
+		<aws.version>1.12.155</aws.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -298,6 +301,19 @@
 			<artifactId>google-api-services-storage</artifactId>
 			<version>v1-rev20211201-1.32.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-rekognition</artifactId>
+			<version>${aws.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>${aws.version}</version>
+		</dependency>
+
+
 
 	</dependencies>
 </project>

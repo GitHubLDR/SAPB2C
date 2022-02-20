@@ -3,6 +3,7 @@
  */
 package com.sap.b2c.storefront.controllers.pages;
 
+import com.sap.image.search.aws.AWSRekognition;
 import com.sap.image.search.gcp.GCPVisionAPISearch;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.Breadcrumb;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
@@ -35,6 +36,9 @@ public class ImageSearchRestController extends AbstractSearchPageController
 	private GCPVisionAPISearch gcpVisionAPISearch;
 
 	@Resource
+	private AWSRekognition awsRekognition;
+
+	@Resource
 	private ConfigurationService configurationService;
 
 	@ResponseBody
@@ -44,9 +48,11 @@ public class ImageSearchRestController extends AbstractSearchPageController
 		Map <String,List<String>> stringListMap = new HashMap <>();
 		try{
 			InputStream imageStream= file.getInputStream();
-			List <String> imageLabelData = gcpVisionAPISearch.getImageLabelData(imageStream.readAllBytes());
-			stringListMap.put("gcpSearchTerms",imageLabelData);
-			stringListMap.put("awsSearchTerms",Collections.emptyList());
+			byte[] imageBytes = imageStream.readAllBytes();
+			List <String> gcpImageLabelData = gcpVisionAPISearch.getImageLabelData(imageBytes);
+			List <String> awsImageLabelData = awsRekognition.getImageLabelData(imageBytes);
+			stringListMap.put("gcpSearchTerms",gcpImageLabelData);
+			stringListMap.put("awsSearchTerms",awsImageLabelData);
 		}
 		catch (Exception e)
 		{
