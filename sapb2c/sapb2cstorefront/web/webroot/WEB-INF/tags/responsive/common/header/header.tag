@@ -146,7 +146,6 @@
 						<div class="col-sm-10">
 							<div class="site-search">
 								<cms:pageSlot position="SearchBox" var="component">
-								${component}
 									<cms:component component="${component}" element="div"/>
 								</cms:pageSlot>
 							</div>
