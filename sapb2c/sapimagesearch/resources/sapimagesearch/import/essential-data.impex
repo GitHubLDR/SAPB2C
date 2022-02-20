@@ -1,16 +1,41 @@
 $contentCatalog=apparel-ukContentCatalog
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
 
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+                          ;;ImageSearchResultsGridPageTemplate;Image Search Results Grid Page Template;search/imageSearchGridPage;ContentPage
+
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='ImageSearchResultsGridPageTemplate'];validComponentTypes(code);compTypeGroup(code)
+                             ;SiteLogo;;;logo
+                             ;HeaderLinks;;;headerlinks
+                             ;TopHeaderSlot;;;wide
+                             ;BottomHeaderSlot;;;wide
+                             ;SearchBox;;;searchbox
+                             ;MiniCart;;;minicart
+                             ;NavigationBar;;;navigation
+                             ;Footer;;;footer
+                             ;ImageSearchResultsGridSlot;;;wide
+
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ImageSearchResultsGridPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+                                    ;;SiteLogo-ImageSearchResultsGrid;SiteLogo;;SiteLogoSlot;true
+                                    ;;HeaderLinks-ImageSearchResultsGrid;HeaderLinks;;HeaderLinksSlot;true
+                                    ;;TopHeader-ImageSearchResultsGrid;TopHeaderSlot;;TopHeaderSlot;true
+                                    ;;BottomHeader-ImageSearchResultsGrid;BottomHeaderSlot;;BottomHeaderSlot;true
+                                    ;;SearchBox-ImageSearchResultsGrid;SearchBox;;SearchBoxSlot;true
+                                    ;;MiniCart-ImageSearchResultsGrid;MiniCart;;MiniCartSlot;true
+                                    ;;NavigationBar-ImageSearchResultsGrid;NavigationBar;;NavigationBarSlot;true
+                                    ;;Footer-ImageSearchResultsGrid;Footer;;FooterSlot;true
+
 INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false'];
-                         ;;ImageSearch;Image Search Results Page;SearchResultsGridPageTemplate;search
+                         ;;ImageSearch;Image Search Results Page;ImageSearchResultsGridPageTemplate;imageSearch
 
 INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;&componentRef;
                                  ;;ImageSearchPageComponent;Image Search Page Component;/WEB-INF/views/responsive/cms/imageSearchPageComponent.jsp;ImageSearchPageComponent
 
-#### SearchResultGridPage
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
                          ;;ImageSearch_ImageSearchResultsSlot;Image Search Result Grid Slot for Search;true;ImageSearchPageComponent;;;
-
 
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true];
                                 ;;ImageSearchResults_ContentSlot;ImageSearchResultsGridSlot;ImageSearch;ImageSearch_ImageSearchResultsSlot;

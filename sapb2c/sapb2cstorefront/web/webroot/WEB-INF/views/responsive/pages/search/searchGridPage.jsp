@@ -17,11 +17,6 @@
 				<cms:component component="${feature}" element="div" class="search-grid-page-result-grid-component"/>
 			</cms:pageSlot>
 		</div>
-		<div class="col-sm-12 col-md-9">
-        			<cms:pageSlot position="ImageSearchResultsGridSlot" var="feature" element="div" class="search-grid-page-result-grid-slot">
-        				<cms:component component="${feature}" element="div" class="search-grid-page-result-grid-component"/>
-        			</cms:pageSlot>
-        </div>
 	</div>
 
 	<storepickup:pickupStorePopup />
