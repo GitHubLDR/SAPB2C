@@ -9,6 +9,7 @@
         if (!f.type.match('image.*')) {
             alert("Selected file must be an image file.");
             document.getElementById("uploadImage").value = null;
+            document.body.style.cursor = 'default';
             continue;
         }
 
@@ -16,6 +17,7 @@
         if (f.size > 1000000) {
             alert("Image must be less than 1 MB.");
             document.getElementById("uploadImage").value = null;
+            document.body.style.cursor = 'default';
             continue;
         }
 
@@ -87,10 +89,22 @@ function handleQuery() {
     }
 
     var responseDiv = document.getElementById('responseSection');
+    var gcpresponseDiv = document.getElementById('gcpresponseSection');
+    var awsresponseDiv = document.getElementById('awsresponseSection');
 
-    // Clear out the response from the last query.
+    // Clear out the Bing response from the last query.
     while (responseDiv.childElementCount > 0) {
         responseDiv.removeChild(responseDiv.lastChild);
+    }
+
+    // Clear out the GCP response from the last query.
+    while (gcpresponseDiv.childElementCount > 0) {
+        gcpresponseDiv.removeChild(gcpresponseDiv.lastChild);
+    }
+
+    // Clear out the AWS response from the last query.
+    while (awsresponseDiv.childElementCount > 0) {
+        awsresponseDiv.removeChild(awsresponseDiv.lastChild);
     }
 
     // Send the request to Bing to get insights about the image.
@@ -115,23 +129,23 @@ function sendBingRequest(file, key) {
     
     request.open("POST", baseUri);
     request.setRequestHeader('Ocp-Apim-Subscription-Key', key);
-    request.addEventListener('load', handleResponse);
+    request.addEventListener('load', handleBingResponse);
     request.send(form);
 }
 
 
 // Handles the response from Bing. Parses the response and 
 // the tag divs.
-function handleResponse() {
+function handleBingResponse() {
     if (this.status !== 200) {
-        alert("Error calling Bing Visual Search. See console log for details.");
+        // alert("Error calling Bing Visual Search. See console log for details.");
         console.log(this.responseText);
         return;
     }
 
     var tags = parseResponse(JSON.parse(this.responseText));
     var h4 = document.createElement('h4');
-    h4.textContent = 'Bing internet search results';
+    h4.textContent = 'Azure search results';
     document.getElementById('responseSection').appendChild(h4);
     
     var bingSearchResultsElement = document.createElement('div');
@@ -499,33 +513,81 @@ function searchTermRedirection(searchTag) {
     window.open(baseUri);
 }
 
+function handleGCPAWSResponse() {
+    if (this.status !== 200) {
+        // alert("Error calling Image Search. See console log for details.");
+        console.log(this.responseText);
+        return;
+    }
+
+    var response = JSON.parse(this.responseText); 
+
+    // var response = {
+    //     "gcpSearchTerms": [
+    //         "text1",
+    //         "text2"
+    //     ],
+    //     "awsSearchTerms": [
+    //         "text1",
+    //         "text2"
+    //     ]
+    // };
+
+    // GCP
+    var gcpTags = response.gcpSearchTerms;
+    var h4 = document.createElement('h4');
+    h4.textContent = 'GCP search results';
+    document.getElementById('gcpresponseSection').appendChild(h4);
+
+    var gcpSearchResultsElement = document.createElement('div');
+    gcpSearchResultsElement.id = 'gcpSearchResults';
+    gcpSearchResultsElement.setAttribute('class', 'display-flex flex-column col-md-12 col-xs-12 no-padding align-content-start');
+    document.getElementById('gcpresponseSection').appendChild(gcpSearchResultsElement);
+
+    if (response && response.gcpSearchTerms && response.gcpSearchTerms.length) {
+        for (var i = 0; i < gcpTags.length; i++) {
+            var linkElement = document.createElement('a');
+            linkElement.setAttribute('onclick', `searchTermRedirection("${gcpTags[i]}")`);
+            linkElement.text = gcpTags[i];
+            linkElement.setAttribute('class', 'cursor-pointer');
+            document.getElementById('gcpSearchResults').appendChild(linkElement);
+        }
+    }
+
+    // AWS
+    var gcpTags = response.awsSearchTerms;
+    var h4 = document.createElement('h4');
+    h4.textContent = 'AWS search results';
+    document.getElementById('awsresponseSection').appendChild(h4);
+
+    var awsSearchResultsElement = document.createElement('div');
+    awsSearchResultsElement.id = 'awsSearchResults';
+    awsSearchResultsElement.setAttribute('class', 'display-flex flex-column col-md-12 col-xs-12 no-padding align-content-start');
+    document.getElementById('awsresponseSection').appendChild(awsSearchResultsElement);
+
+    if (response && response.awsSearchTerms && response.awsSearchTerms.length) {
+
+
+
+        for (var i = 0; i < gcpTags.length; i++) {
+            var linkElement = document.createElement('a');
+            linkElement.setAttribute('onclick', `searchTermRedirection("${gcpTags[i]}")`);
+            linkElement.text = gcpTags[i];
+            linkElement.setAttribute('class', 'cursor-pointer');
+            document.getElementById('awsSearchResults').appendChild(linkElement);
+        }
+    }
+};
+
 function sendRequestToGCPAWS(file) {
-    const formData = new FormData();
-    formData.append('file', file);
     var baseUri = '/sapb2cstorefront/search/siteImageSearch';
 
-    console.log(formData)
+    var form = new FormData();
+    form.append("file", file);
 
-    // fetch(baseUri, { method: 'POST', body: formData }).then(r => r.json()).then(data => { console.log(data) });
+    var request = new XMLHttpRequest();
 
-    jQuery.ajax({
-        url: baseUri,
-        method: "POST",
-        timeout: 0,
-        headers: {
-            "Accept": "application/json"
-        },
-        enctype: "multipart/form-data",
-        contentType: false,
-        processData: false,
-        crossDomain: true,
-        cache: false,
-        data: formData,
-        success: function (data) {
-            console.log(data1);
-        },
-        error: function (error) {
-            console.log(error)
-        }
-    });
+    request.open("POST", baseUri);
+    request.addEventListener('load', handleGCPAWSResponse);
+    request.send(form);
 };

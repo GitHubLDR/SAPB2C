@@ -18681,6 +18681,63 @@ select[multiple].input-sm {
     height: 320px;
   }
 }
+.thumb {
+  height: 75px;
+  border: 1px solid #000;
+  margin-bottom: 20px;
+}
+.stackLink {
+  width: 180px;
+  min-height: 210px;
+  display: inline-block;
+}
+.stackLink a {
+  float: left;
+  clear: left;
+}
+.section {
+  float: left;
+  display: none;
+}
+.subSection {
+  clear: left;
+  float: left;
+}
+.display-flex {
+  display: flex !important;
+}
+.flex-row {
+  flex-direction: row !important;
+}
+.flex-column {
+  flex-direction: column !important;
+}
+.no-padding {
+  padding: 0 !important;
+}
+.align-content-start {
+  align-content: flex-start;
+}
+.align-items-center {
+  align-items: center;
+}
+.align-items-baseline {
+  align-items: baseline !important;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.m-t-30 {
+  margin-top: 30px;
+}
+.upload-button {
+  background: #128A9E !important;
+  border: none;
+  outline: none;
+}
 .skip,
 .skiptocontent,
 .skiptonavigation {

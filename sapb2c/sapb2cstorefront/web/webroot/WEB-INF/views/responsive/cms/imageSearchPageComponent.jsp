@@ -5,7 +5,7 @@
             <p class="display-flex flex-column">
                 <div class="col-md-12 no-padding">Upload an image Image below to get insights:</div>
                 <!-- TEST -->
-                <button style="display:block;width:120px; height:30px; margin-top: 40px; color: #000;"
+                <button class="btn btn-default" style="display:block; margin-top: 40px;"
                     onclick="document.getElementById('uploadImage').click()">Upload</button>
                 <!-- <input type='file' id="uploadImage" style="display:none"> -->
 
@@ -81,10 +81,18 @@
         </div>
     </div>
 
-    <p><input type="button" id="query" value="Get insights"
+    <p><input type="button" id="query" value="Get insights" class="btn btn-primary upload-button"
             onclick="document.body.style.cursor='wait'; handleQuery()" /></p>
 
     <hr />
 
-    <div id="responseSection"></div>
+    <div class="col-xs-12 col-md-12 display-flex flex-row align-items-baseline justify-content-between clearfix">
+        <!-- Bing -->
+        <div id="responseSection" class="col-md-4 col-xs12 clearfix"></div>
+        <!-- GCP -->
+        <div id="gcpresponseSection" class="col-md-4 col-xs12 clearfix"></div>
+        <!-- AWS -->
+        <div id="awsresponseSection" class="col-md-4 col-xs12 clearfix"></div>
+    </div>
+
 </div>
