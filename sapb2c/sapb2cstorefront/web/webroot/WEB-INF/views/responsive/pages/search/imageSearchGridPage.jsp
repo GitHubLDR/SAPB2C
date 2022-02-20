@@ -14,6 +14,6 @@
         </div>
 	</div>
 
-	<storepickup:pickupStorePopup />
+
 
 </template:page>
