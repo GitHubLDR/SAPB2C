@@ -154,18 +154,19 @@ function handleBingResponse() {
     document.getElementById('responseSection').appendChild(bingSearchResultsElement);
     
     
-    for(var tag in tags) {
-
-        if (tags.hasOwnProperty(tag)) {
+    for (var tag in tags) {
+        console.log(tag);
+        if (tags.hasOwnProperty(tag) && tag != 'Default') {
             var linkElement = document.createElement('a');
             linkElement.setAttribute('onclick', `searchTermRedirection("${tag}")`);
             linkElement.text = tag;
             linkElement.setAttribute('class', 'cursor-pointer');
             document.getElementById('bingSearchResults').appendChild(linkElement);
+        } else if (tag == 'Default') {
+            buildTagSections(tags); // Using custom builder for default
         }
     }
     
-    // buildTagSections(tags); // Commented the code for using custom builder
 
     document.body.style.cursor = 'default'; // reset the wait curor set by query insights button
 }
@@ -192,7 +193,7 @@ function parseResponse(json) {
 // Builds divs fro each tag in the response.
 function buildTagSections(tags) {
     for (var tag in tags) {
-        if (tags.hasOwnProperty(tag)) {
+        if (tags.hasOwnProperty(tag) && tag == "Default") {
             var tagSection = buildDiv(tags, tag);
             document.getElementById('responseSection').appendChild(tagSection);
         }
