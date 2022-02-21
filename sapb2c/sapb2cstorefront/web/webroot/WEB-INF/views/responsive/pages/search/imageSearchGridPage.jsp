@@ -6,12 +6,15 @@
 
 <template:page pageTitle="${pageTitle}">
 
-	<div class="row display-flex justify-content-center no-margin no-padding">
+	<div class="row display-flex flex-column justify-content-center no-margin no-padding">
 		<div>
         			<cms:pageSlot position="ImageSearchResultsGridSlot" var="feature" element="div">
         				<cms:component component="${feature}" element="div"/>
         			</cms:pageSlot>
         </div>
+		<div id="defaultResponseSection" class="row display-flex justify-content-center no-margin no-padding" style="max-width: 45vw;">
+
+		</div>
 	</div>
 
 

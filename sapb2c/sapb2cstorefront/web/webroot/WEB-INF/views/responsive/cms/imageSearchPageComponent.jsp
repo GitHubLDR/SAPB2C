@@ -95,4 +95,6 @@
         <div id="awsresponseSection" class="col-md-4 col-xs12 clearfix"></div>
     </div>
 
+    <!-- <div id="defaultResponseSection"></div> -->
+
 </div>

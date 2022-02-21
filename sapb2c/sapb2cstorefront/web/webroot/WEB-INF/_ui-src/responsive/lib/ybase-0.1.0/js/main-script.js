@@ -195,7 +195,7 @@ function buildTagSections(tags) {
     for (var tag in tags) {
         if (tags.hasOwnProperty(tag) && tag == "Default") {
             var tagSection = buildDiv(tags, tag);
-            document.getElementById('responseSection').appendChild(tagSection);
+            document.getElementById('defaultResponseSection').appendChild(tagSection);
         }
     }
 }
@@ -209,8 +209,8 @@ function buildDiv(tags, tag) {
     tagSection.setAttribute('class', 'subSection');
 
     var link = document.createElement('a');
-    link.setAttribute('href', '#');
-    link.setAttribute('style', 'float: left;')
+    // link.setAttribute('href', '');
+    link.setAttribute('style', 'float: left; cursor: pointer;')
     link.text = tag;
     tagSection.appendChild(link);
 
