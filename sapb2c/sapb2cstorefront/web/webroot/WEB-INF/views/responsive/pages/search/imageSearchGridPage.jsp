@@ -6,7 +6,7 @@
 
 <template:page pageTitle="${pageTitle}">
 
-	<div class="row">
+	<div class="row display-flex justify-content-center no-margin no-padding">
 		<div>
         			<cms:pageSlot position="ImageSearchResultsGridSlot" var="feature" element="div">
         				<cms:component component="${feature}" element="div"/>

@@ -18721,6 +18721,9 @@ select[multiple].input-sm {
 .no-padding {
   padding: 0 !important;
 }
+.no-margin {
+  margin: 0 !important;
+}
 .align-content-start {
   align-content: flex-start;
 }
@@ -18729,6 +18732,9 @@ select[multiple].input-sm {
 }
 .align-items-baseline {
   align-items: baseline !important;
+}
+.justify-content-center {
+  justify-content: center;
 }
 .justify-content-between {
   justify-content: space-between;
